@@ -88,7 +88,7 @@ function startPyodide() {
 
 function loadPackages() {
   console.log('[ProcessingWorker] loading packages')
-  return self.pyodide.loadPackage(['micropip', 'numpy', 'pandas'])
+  return self.pyodide.loadPackage(['micropip', 'python-magic', 'pandas', 'beautifulsoup4'])
 }
 
 function installPortPackage() {
@@ -96,6 +96,8 @@ function installPortPackage() {
   return self.pyodide.runPythonAsync(`
     import micropip
     await micropip.install("/port-0.0.0-py3-none-any.whl", deps=False)
+    await micropip.install("https://d3i-infra.github.io/ddp-inspector/ddpinspect/dist/ddpinspect-0.0.0-py3-none-any.whl", deps=False)
+
     import port
   `);  
 }
