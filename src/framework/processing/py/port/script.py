@@ -33,6 +33,12 @@ TABLE_TITLES = {
             "nl": "Jouw interesses volgens Twitter:",
         }
     ),
+    "twitter_account_created_at": props.Translatable(
+        {
+            "en": "Creation date of your account on Twitter:",
+            "nl": "Datum waarop je account is aangemaakt op Twitter:",
+        }
+    ),
     "instagram_your_topics": props.Translatable(
         {
             "en": "Topics your interested in according to Instagram:",
@@ -45,6 +51,12 @@ TABLE_TITLES = {
             "nl": "Jouw interesses volgens Instagram:",
         }
     ),
+    "instagram_account_created_at": props.Translatable(
+        {
+            "en": "Creation date of your account on Instagram:",
+            "nl": "Datum waarop je account is aangemaakt op Instagram:",
+        }
+    ),
     "facebook_your_topics": props.Translatable(
         {
             "en": "Topics your interested in according to Facebook:",
@@ -55,6 +67,12 @@ TABLE_TITLES = {
         {
             "en": "Your interests according to Facebook:",
             "nl": "Jouw interesses volgens Facebook:",
+        }
+    ),
+    "facebook_account_created_at": props.Translatable(
+        {
+            "en": "Creation date of your account on Facebook:",
+            "nl": "Datum waarop je account is aangemaakt op Facebook:",
         }
     ),
     "youtube_watch_history": props.Translatable(
@@ -174,7 +192,7 @@ def process(sessionId):
 
 
 ##################################################################
-# Prompt consent
+# helper functions
 
 def prompt_consent(platform_name, data):
     table_list = []
@@ -222,6 +240,14 @@ def extract_twitter(twitter_zip):
     if interests:
         df = pd.DataFrame(interests, columns=["Interests"])
         result["interests"] = {"data": df, "title": TABLE_TITLES["twitter_interests"]}
+ 
+    account_created_at_bytes = unzipddp.extract_file_from_zip(twitter_zip, "account.js")  
+    account_created_at_listdict = twitter.bytesio_to_listdict(account_created_at_bytes)
+    account_created_at = twitter.account_created_at_to_list(account_created_at_listdict)
+
+    if account_created_at:
+        df = pd.DataFrame(account_created_at, columns=["Account created at"])
+        result["account_created_at"] = {"data": df, "title": TABLE_TITLES["twitter_account_created_at"]}
 
     return validation, result
 
@@ -231,23 +257,26 @@ def extract_instagram(instagram_zip):
 
     validation = instagram.validate_zip(instagram_zip)
 
-    interests_bytes = unzipddp.extract_file_from_zip(
-        instagram_zip, "ads_interests.json"
-    )
+    interests_bytes = unzipddp.extract_file_from_zip(instagram_zip, "ads_interests.json")
     interests_dict = unzipddp.read_json_from_bytes(interests_bytes)
     interests = instagram.interests_to_list(interests_dict)
     if interests:
         df = pd.DataFrame(interests, columns=["Interests"])
         result["interests"] = {"data": df, "title": TABLE_TITLES["instagram_interests"]}
 
-    your_topics_bytes = unzipddp.extract_file_from_zip(
-        instagram_zip, "your_topics.json"
-    )
+    your_topics_bytes = unzipddp.extract_file_from_zip(instagram_zip, "your_topics.json")
     your_topics_dict = unzipddp.read_json_from_bytes(your_topics_bytes)
     your_topics = instagram.your_topics_to_list(your_topics_dict)
     if your_topics:
         df = pd.DataFrame(your_topics, columns=["Your Topics"])
         result["your_topics"] = {"data": df, "title": TABLE_TITLES["instagram_your_topics"]}
+  
+    account_created_at_bytes = unzipddp.extract_file_from_zip(instagram_zip, "signup_information.json")
+    account_created_at_dict = unzipddp.read_json_from_bytes(account_created_at_bytes)
+    account_created_at = instagram.account_created_at_to_list(account_created_at_dict)
+    if account_created_at:
+        df = pd.DataFrame(account_created_at, columns=["Account created at"])
+        result["account_created_at"] = {"data": df, "title": TABLE_TITLES["instagram_account_created_at"]}
 
     return validation, result
 
@@ -270,6 +299,13 @@ def extract_facebook(facebook_zip):
     if your_topics:
         df = pd.DataFrame(your_topics, columns=["Your Topics"])
         result["your_topics"] = {"data": df, "title": TABLE_TITLES["facebook_your_topics"]}
+
+    account_created_at_bytes = unzipddp.extract_file_from_zip(facebook_zip, "profile_information.json")
+    account_created_at_dict = unzipddp.read_json_from_bytes(account_created_at_bytes)
+    account_created_at = facebook.account_created_at_to_list(account_created_at_dict)
+    if account_created_at:
+        df = pd.DataFrame(account_created_at, columns=["Account created at"])
+        result["account_created_at"] = {"data": df, "title": TABLE_TITLES["facebook_account_created_at"]}
 
     return validation, result
 
@@ -310,6 +346,7 @@ def extract_youtube(youtube_zip):
 
 
 ##########################################
+# Functions provided by Eyra did not change
 
 def render_end_page():
     page = props.PropsUIPageEnd()
@@ -327,13 +364,13 @@ def render_donation_page(platform, body, progress):
 def retry_confirmation(platform):
     text = props.Translatable(
         {
-            "en": f"We can not process your {platform} file, please try again if you want to choose another file.",
-            "nl": f"We kunnen uw {platform} bestand niet verwerken, probeer opnieuw als u een ander bestand wilt kiezen.",
+            "en": f"Unfortunately, we cannot process your {platform} file. Continue, if you are sure that you selected the right file. Try again to select a different file.",
+            "nl": f"Helaas, kunnen we uw {platform} bestand niet verwerken. Weet u zeker dat u het juiste bestand heeft gekozen? Ga dan verder. Probeer opnieuw als u een ander bestand wilt kiezen."
         }
     )
     ok = props.Translatable({"en": "Try again", "nl": "Probeer opnieuw"})
     cancel = props.Translatable({"en": "Continue", "nl": "Verder"})
-    return props.sPropsUIPromptConfirm(text, ok, cancel)
+    return props.PropsUIPromptConfirm(text, ok, cancel)
 
 
 def prompt_file(platform, extensions):
