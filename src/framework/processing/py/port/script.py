@@ -119,7 +119,7 @@ def process(sessionId):
     step_percentage = (100 / subflows) / steps
     progress = 0
 
-    for index, platform in enumerate(platforms):
+    for platform in platforms:
         platform_name, extraction_fun = platform
         data = None
 
@@ -129,7 +129,7 @@ def process(sessionId):
             LOGGER.info("Prompt for file for %s", platform_name)
             yield donate_logs(f"{sessionId}-tracking")
 
-            promptFile = prompt_file(platform_name, "application/zip, text/plain")
+            promptFile = prompt_file("application/zip, text/plain")
             fileResult = yield render_donation_page(platform_name, promptFile, progress)
 
             if fileResult.__type__ == "PayloadString":
@@ -145,11 +145,7 @@ def process(sessionId):
                     yield donate_logs(f"{sessionId}-tracking")
                     data = extractionResult
                     break
-                elif (
-                    validation.status_code.id == 0
-                    and not extractionResult
-                    and validation.ddp_category is not None
-                ):
+                elif (validation.status_code.id == 0 and not extractionResult and validation.ddp_category is not None):
                     LOGGER.info("Valid zip for %s; No payload", platform_name)
                     yield donate_logs(f"{sessionId}-tracking")
                     data = return_empty_result_set()
@@ -218,7 +214,7 @@ def donate_logs(key):
     log_string = LOG_STREAM.getvalue()  # read the log stream
 
     if log_string:
-        log_data = log_string.split("\\n")
+        log_data = log_string.split("\n")
     else:
         log_data = ["no logs"]
 
@@ -315,7 +311,6 @@ def extract_youtube(youtube_zip):
 
     validation = youtube.validate_zip(youtube_zip)
     if validation.ddp_category is not None:
-
         if validation.ddp_category.language == Language.EN:
             subscriptions_fn = "subscriptions.csv"
             watch_history_fn = "watch-history.json"
@@ -373,7 +368,7 @@ def retry_confirmation(platform):
     return props.PropsUIPromptConfirm(text, ok, cancel)
 
 
-def prompt_file(platform, extensions):
+def prompt_file(extensions):
     description = props.Translatable(
         {
             "en": "Please follow the download instructions and choose the file that you stored on your device.",
