@@ -160,7 +160,7 @@ def process(sessionId):
                     else:
                         LOGGER.info("Skipped during retry %s", platform_name)
                         yield donate_logs(f"{sessionId}-tracking")
-                        data = return_empty_result_set()
+                        #data = return_empty_result_set()
                         break
             else:
                 LOGGER.info("Skipped %s", platform_name)
