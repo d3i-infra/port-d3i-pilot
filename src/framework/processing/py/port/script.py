@@ -77,8 +77,8 @@ TABLE_TITLES = {
     ),
     "youtube_watch_history": props.Translatable(
         {
-            "en": "Video's you watched on YouTube:",
-            "nl": "Video's die je gekeken hebt op Youtube:",
+            "en": "Videos you watched on YouTube:",
+            "nl": "Videos die je op YouTube hebt gekeken:",
         }
     ),
     "youtube_subscriptions": props.Translatable(
