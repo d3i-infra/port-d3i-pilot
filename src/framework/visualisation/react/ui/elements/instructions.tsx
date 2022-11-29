@@ -8,10 +8,10 @@ import YoutubeSvg from '../../../../../assets/images/youtube.svg'
 import TextBundle from '../../../../text_bundle'
 import { Bullet } from './bullet'
 
-const linkTwitter: string = 'https://eyra.co'
-const linkFacebook: string = 'https://eyra.co'
-const linkInstagram: string = 'https://eyra.co'
-const linkYoutube: string = 'https://eyra.co'
+const linkTwitter: string = 'https://d3iwebserver-webapp-serve-privacy-support-page.azurewebsites.net/instructions/twitter.pdf'
+const linkFacebook: string = 'https://d3iwebserver-webapp-serve-privacy-support-page.azurewebsites.net/instructions/facebook.pdf'
+const linkInstagram: string = 'https://d3iwebserver-webapp-serve-privacy-support-page.azurewebsites.net/instructions/instagram.pdf'
+const linkYoutube: string = 'https://d3iwebserver-webapp-serve-privacy-support-page.azurewebsites.net/instructions/youtube.pdf'
 
 interface InstructionsProps {
   platform: string
