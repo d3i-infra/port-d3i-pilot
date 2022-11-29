@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
 };
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 function footerLinks() {
-    return (_jsxs("div", __assign({ className: 'flex flex-row gap-4 text-link font-link' }, { children: [_jsx("div", __assign({ className: ' text-primary underline' }, { children: _jsx("a", __assign({ href: 'https://eyra.co', target: '_blank', rel: 'noreferrer' }, { children: "Privacy" })) })), _jsx("div", { className: 'bg-grey3 w-1px' }), _jsx("div", __assign({ className: ' text-primary underline' }, { children: _jsx("a", __assign({ href: 'https://eyra.co', target: '_blank', rel: 'noreferrer' }, { children: "Support" })) }))] })));
+    return (_jsxs("div", __assign({ className: 'flex flex-row gap-4 text-link font-link' }, { children: [_jsx("div", __assign({ className: ' text-primary underline' }, { children: _jsx("a", __assign({ href: 'https://d3iwebserver-webapp-serve-privacy-support-page.azurewebsites.net/static/privacy.html', target: '_blank', rel: 'noreferrer' }, { children: "Privacy" })) })), _jsx("div", { className: 'bg-grey3 w-1px' }), _jsx("div", __assign({ className: ' text-primary underline' }, { children: _jsx("a", __assign({ href: 'https://d3iwebserver-webapp-serve-privacy-support-page.azurewebsites.net/static/support.html', target: '_blank', rel: 'noreferrer' }, { children: "Support" })) }))] })));
 }
 export var Footer = function (_a) {
     var _b = _a.left, left = _b === void 0 ? footerLinks() : _b, middle = _a.middle, right = _a.right;
