@@ -35,13 +35,13 @@ TABLE_TITLES = {
     ),
     "twitter_account_created_at": props.Translatable(
         {
-            "en": "Creation date of your account on Twitter:",
+            "en": "Date of your account creation on Twitter:",
             "nl": "Datum waarop je account is aangemaakt op Twitter:",
         }
     ),
     "instagram_your_topics": props.Translatable(
         {
-            "en": "Topics your interested in according to Instagram:",
+            "en": "Topics in which you are interested in according to Instagram:",
             "nl": "Onderwerpen waar jij volgens Instagram geintereseerd in bent:",
         }
     ),
@@ -53,13 +53,13 @@ TABLE_TITLES = {
     ),
     "instagram_account_created_at": props.Translatable(
         {
-            "en": "Creation date of your account on Instagram:",
+            "en": "Date of your account creation on Instagram:",
             "nl": "Datum waarop je account is aangemaakt op Instagram:",
         }
     ),
     "facebook_your_topics": props.Translatable(
         {
-            "en": "Topics your interested in according to Facebook:",
+            "en": "Topics in which you are interested in according to Facebook:",
             "nl": "Onderwerpen waar jij volgens Facebook geintereseerd in bent:",
         }
     ),
@@ -71,7 +71,7 @@ TABLE_TITLES = {
     ),
     "facebook_account_created_at": props.Translatable(
         {
-            "en": "Creation date of your account on Facebook:",
+            "en": "Date of your account creation on Facebook:",
             "nl": "Datum waarop je account is aangemaakt op Facebook:",
         }
     ),
@@ -359,7 +359,7 @@ def render_donation_page(platform, body, progress):
 def retry_confirmation(platform):
     text = props.Translatable(
         {
-            "en": f"Unfortunately, we cannot process your {platform} file. Continue, if you are sure that you selected the right file. Try again to select a different file.",
+            "en": f"Unfortunately, we could not process your {platform} file. If you are sure that you selected the correct file, press Continue. To select a different file, press Try again.",
             "nl": f"Helaas, kunnen we uw {platform} bestand niet verwerken. Weet u zeker dat u het juiste bestand heeft gekozen? Ga dan verder. Probeer opnieuw als u een ander bestand wilt kiezen."
         }
     )
