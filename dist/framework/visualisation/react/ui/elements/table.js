@@ -282,8 +282,8 @@ export var Table = function (_a) {
     }
 };
 var link = new TextBundle()
-    .add('en', 'Check out')
-    .add('nl', 'Bekijk');
+    .add('en', 'View url')
+    .add('nl', 'Bekijk url');
 var searchPlaceholder = new TextBundle()
     .add('en', 'Search')
     .add('nl', 'Zoeken');
