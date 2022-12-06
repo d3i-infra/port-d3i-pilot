@@ -13,7 +13,7 @@ from ddpinspect import instagram
 from ddpinspect import youtube
 from ddpinspect import facebook
 from ddpinspect.validate import Language
-
+from ddpinspect.validate import DDPFiletype
 
 LOG_STREAM = io.StringIO()
 
@@ -313,25 +313,34 @@ def extract_youtube(youtube_zip):
     if validation.ddp_category is not None:
         if validation.ddp_category.language == Language.EN:
             subscriptions_fn = "subscriptions.csv"
-            watch_history_fn = "watch-history.json"
+            watch_history_fn = "watch-history"
             comments_fn = "my-comments.html"
         else:
             subscriptions_fn = "abonnementen.csv"
-            watch_history_fn = "kijkgeschiedenis.json"
+            watch_history_fn = "kijkgeschiedenis"
             comments_fn = "mijn-reacties.html"
 
+        # Get subscriptions
         subscriptions_bytes = unzipddp.extract_file_from_zip( youtube_zip, subscriptions_fn)
         subscriptions_listdict = unzipddp.read_csv_from_bytes(subscriptions_bytes)
         df = youtube.to_df(subscriptions_listdict)
         if not df.empty:
             result["subscriptions"] = {"data": df, "title": TABLE_TITLES["youtube_subscriptions"]}
-
-        watch_history_bytes = unzipddp.extract_file_from_zip(youtube_zip, watch_history_fn)
-        watch_history_listdict = unzipddp.read_json_from_bytes(watch_history_bytes)
-        df = youtube.to_df(watch_history_listdict)
+        
+        # Get watch history
+        if validation.ddp_category.ddp_filetype == DDPFiletype.JSON:
+            watch_history_fn = watch_history_fn + ".json"
+            watch_history_bytes = unzipddp.extract_file_from_zip(youtube_zip, watch_history_fn)
+            watch_history_listdict = unzipddp.read_json_from_bytes(watch_history_bytes)
+            df = youtube.to_df(watch_history_listdict)
+        if validation.ddp_category.ddp_filetype == DDPFiletype.HTML:
+            watch_history_fn = watch_history_fn + ".html"
+            watch_history_bytes = unzipddp.extract_file_from_zip(youtube_zip, watch_history_fn)
+            df = youtube.watch_history_html_to_df(watch_history_bytes)
         if not df.empty:
             result["watch_history"] = {"data": df, "title": TABLE_TITLES["youtube_watch_history"]}
 
+        # Get comments
         comments_bytes = unzipddp.extract_file_from_zip(youtube_zip, comments_fn)
         df = youtube.comments_to_df(comments_bytes)
         if not df.empty:
