@@ -78,7 +78,7 @@ function startPyodide() {
 }
 function loadPackages() {
     console.log('[ProcessingWorker] loading packages');
-    return self.pyodide.loadPackage(['micropip', 'python-magic', 'pandas', 'beautifulsoup4']);
+    return self.pyodide.loadPackage(['micropip', 'python-magic', 'pandas', 'beautifulsoup4', 'lxml']);
 }
 function installPortPackage() {
     console.log('[ProcessingWorker] load port package');
