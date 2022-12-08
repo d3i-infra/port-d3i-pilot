@@ -24,7 +24,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%dT%H:%M:%S%z",
 )
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("yolo")
 
 TABLE_TITLES = {
     "twitter_interests": props.Translatable(
@@ -129,7 +129,7 @@ def process(sessionId):
             LOGGER.info("Prompt for file for %s", platform_name)
             yield donate_logs(f"{sessionId}-tracking")
 
-            promptFile = prompt_file("application/zip, text/plain")
+            promptFile = prompt_file("application/zip, text/plain", platform_name)
             fileResult = yield render_donation_page(platform_name, promptFile, progress)
 
             if fileResult.__type__ == "PayloadString":
@@ -377,11 +377,11 @@ def retry_confirmation(platform):
     return props.PropsUIPromptConfirm(text, ok, cancel)
 
 
-def prompt_file(extensions):
+def prompt_file(extensions, platform):
     description = props.Translatable(
         {
-            "en": "Please follow the download instructions and choose the file that you stored on your device.",
-            "nl": "Volg de download instructies en kies het bestand dat u opgeslagen heeft op uw apparaat."
+            "en": f"Please follow the download instructions and choose the file that you stored on your device. Click “Skip” at the right bottom, if you do not have a file from {platform}.",
+            "nl": f"Volg de download instructies en kies het bestand dat u opgeslagen heeft op uw apparaat. Als u geen {platform} bestand heeft klik dan op “Overslaan” rechts onder."
         }
     )
     return props.PropsUIPromptFileInput(description, extensions)
