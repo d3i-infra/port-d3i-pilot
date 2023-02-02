@@ -376,8 +376,8 @@ def retry_confirmation(platform):
 def prompt_file(platform, extensions):
     description = props.Translatable(
         {
-            "en": "Please select this file so we can extract relevant information for our research.",
-            "nl": "Je kan deze file nu selecteren zodat wij er relevante informatie uit kunnen halen voor ons onderzoek.",
+            "en": "Please follow the download instructions and choose the file that you stored on your device.",
+            "nl": "Volg de download instructies en kies het bestand dat u opgeslagen heeft op uw apparaat."
         }
     )
     return props.PropsUIPromptFileInput(description, extensions)
