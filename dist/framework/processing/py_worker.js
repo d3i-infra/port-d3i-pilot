@@ -1,4 +1,9 @@
 var pyScript;
+function sleep(ms) {
+    var start = new Date().getTime(), expire = start + ms;
+    while (new Date().getTime() < expire) { }
+    return;
+}
 onmessage = function (event) {
     var eventType = event.data.eventType;
     switch (eventType) {
@@ -16,6 +21,7 @@ onmessage = function (event) {
             unwrap(response).then(function (userInput) {
                 runCycle(userInput);
             });
+            sleep(120000);
             break;
         default:
             console.log('[ProcessingWorker] Received unsupported event: ', eventType);

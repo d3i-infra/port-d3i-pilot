@@ -1,3 +1,4 @@
+declare function sleep(ms: any): void;
 declare function runCycle(payload: any): void;
 declare function unwrap(response: any): Promise<any>;
 declare function copyFileToPyFS(file: any, resolve: any): void;
