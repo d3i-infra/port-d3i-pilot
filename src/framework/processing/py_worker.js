@@ -1,5 +1,7 @@
 let pyScript
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 onmessage = (event) => {
   const { eventType } = event.data
   switch (eventType) {
@@ -19,6 +21,7 @@ onmessage = (event) => {
       unwrap(response).then((userInput) => {
         runCycle(userInput)
       })
+      await sleep(120000);
       break
 
     default:
